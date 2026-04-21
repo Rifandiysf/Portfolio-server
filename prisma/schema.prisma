@@ -5,9 +5,135 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../generated/prisma"
+  output   = "./generated"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model User {
+  id         String      @id @default(uuid())
+  name       String
+  email      String      @unique
+  password   String?
+  avatarUrl  String?     @map("avatar_url")
+  bio        String?
+  role       Role        @default(VIEWER)
+  provider   String?     // 'local' | 'google'
+  providerId String?     @map("provider_id")
+  createdAt  DateTime    @default(now()) @map("created_at")
+  blogPosts  BlogPost[]
+
+  @@map("users")
+}
+
+model Project {
+  id             String              @id @default(uuid())
+  title          String
+  slug           String              @unique
+  description    String?
+  thumbnailUrl   String?             @map("thumbnail_url")
+  demoUrl        String?             @map("demo_url")
+  repoUrl        String?             @map("repo_url")
+  status         ProjectStatus       @default(DRAFT)
+  createdAt      DateTime            @default(now()) @map("created_at")
+  technologies   ProjectTechnology[]
+
+  @@map("projects")
+}
+
+model Technology {
+  id       String              @id @default(uuid())
+  name     String
+  iconUrl  String?             @map("icon_url")
+  category TechCategory
+  projects ProjectTechnology[]
+
+  @@map("technologies")
+}
+
+model ProjectTechnology {
+  projectId    String     @map("project_id")
+  technologyId String     @map("technology_id")
+  project      Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  technology   Technology @relation(fields: [technologyId], references: [id], onDelete: Cascade)
+
+  @@id([projectId, technologyId])
+  @@map("project_technologies")
+}
+
+model BlogPost {
+  id           String    @id @default(uuid())
+  authorId     String    @map("author_id")
+  title        String
+  slug         String    @unique
+  content      String
+  thumbnailUrl String?   @map("thumbnail_url")
+  status       PostStatus @default(DRAFT)
+  publishedAt  DateTime? @map("published_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  author       User      @relation(fields: [authorId], references: [id])
+  tags         PostTag[]
+
+  @@map("blog_posts")
+}
+
+model Tag {
+  id    String    @id @default(uuid())
+  name  String
+  slug  String    @unique
+  posts PostTag[]
+
+  @@map("tags")
+}
+
+model PostTag {
+  postId String   @map("post_id")
+  tagId  String   @map("tag_id")
+  post   BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag    Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+  @@map("post_tags")
+}
+
+model ContactMessage {
+  id        String        @id @default(uuid())
+  name      String
+  email     String
+  message   String
+  status    MessageStatus @default(UNREAD)
+  createdAt DateTime      @default(now()) @map("created_at")
+
+  @@map("contact_messages")
+}
+
+enum Role {
+  ADMIN
+  VIEWER
+}
+
+enum ProjectStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum TechCategory {
+  LANGUAGE
+  FRAMEWORK
+  TOOL
+  DATABASE
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum MessageStatus {
+  UNREAD
+  READ
+  REPLIED
 }
