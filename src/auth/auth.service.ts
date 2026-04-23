@@ -26,8 +26,8 @@ export interface AuthTokenResponse {
 
 @Injectable()
 export class AuthService {
+  private resend: Resend;
   constructor(
-    private resend: Resend,
     private prisma: PrismaService,
     private jwtService: JwtService,
     private configService: ConfigService,
