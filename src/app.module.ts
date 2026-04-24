@@ -5,6 +5,7 @@ import { UsersModule } from './users/user.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ContactModule } from './contact/contact.module';
 import { ExperienceModule } from './experiences/experience.module';
+import { ServiceModule } from './services/service.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -13,6 +14,7 @@ import { ExperienceModule } from './experiences/experience.module';
     PrismaModule,
     ContactModule,
     ExperienceModule,
+    ServiceModule,
   ],
 })
 export class AppModule {}
