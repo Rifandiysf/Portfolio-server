@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 import 'dotenv/config';
 import * as bcrypt from 'bcryptjs';
 import { PostStatus, PrismaClient, Role, User } from './generated/client';

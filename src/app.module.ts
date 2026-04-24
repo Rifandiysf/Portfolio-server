@@ -7,6 +7,7 @@ import { ContactModule } from './contact/contact.module';
 import { ExperienceModule } from './experiences/experience.module';
 import { ServiceModule } from './services/service.module';
 import { ProjectsModule } from './project/project.module';
+import { TestimonialsModule } from './testimonials/testimonial.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -17,6 +18,7 @@ import { ProjectsModule } from './project/project.module';
     ExperienceModule,
     ServiceModule,
     ProjectsModule,
+    TestimonialsModule,
   ],
 })
 export class AppModule {}
