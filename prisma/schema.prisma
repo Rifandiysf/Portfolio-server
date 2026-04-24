@@ -36,10 +36,17 @@ model Project {
   title        String
   slug         String              @unique
   description  String?
+  objective    String?
+  solution     String?
   thumbnailUrl String?             @map("thumbnail_url")
+  images       String[]
   demoUrl      String?             @map("demo_url")
   repoUrl      String?             @map("repo_url")
   status       ProjectStatus       @default(DRAFT)
+  statusTags   String[]            @map("status_tags")
+  year         Int?
+  features     String[]
+  order        Int                 @default(0)
   createdAt    DateTime            @default(now()) @map("created_at")
   technologies ProjectTechnology[]
 
@@ -51,6 +58,7 @@ model Technology {
   name     String
   iconUrl  String?             @map("icon_url")
   category TechCategory
+  order    Int                 @default(0)
   projects ProjectTechnology[]
 
   @@map("technologies")
@@ -112,6 +120,29 @@ model ContactMessage {
   @@map("contact_messages")
 }
 
+model Experience {
+  id          String   @id @default(uuid())
+  role        String
+  companyName String   @map("company_name")
+  date        String
+  year        String
+  description String
+  techStack   String[] @map("tech_stack")
+  order       Int      @default(0)
+
+  @@map("experiences")
+}
+
+model Service {
+  id    String @id @default(uuid())
+  num   String
+  name  String
+  desc  String
+  order Int    @default(0)
+
+  @@map("services")
+}
+
 enum Role {
   ADMIN
   VIEWER
@@ -128,6 +159,7 @@ enum TechCategory {
   FRAMEWORK
   TOOL
   DATABASE
+  DESIGN
 }
 
 enum PostStatus {
