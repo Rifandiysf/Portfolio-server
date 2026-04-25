@@ -8,6 +8,7 @@ import { ExperienceModule } from './experiences/experience.module';
 import { ServiceModule } from './services/service.module';
 import { ProjectsModule } from './project/project.module';
 import { TestimonialsModule } from './testimonials/testimonial.module';
+import { TechnologiesModule } from './technologies/technology.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -18,6 +19,7 @@ import { TestimonialsModule } from './testimonials/testimonial.module';
     ExperienceModule,
     ServiceModule,
     ProjectsModule,
+    TechnologiesModule,
     TestimonialsModule,
   ],
 })
